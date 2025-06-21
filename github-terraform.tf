@@ -18,10 +18,10 @@ provider "github" {
   token = var.github_token  # Changed from literal to variable reference
 }
 
-/*resource "github_repository" "example" {
+resource "github_repository" "example" {
   name        = "example"
   description = "My awesome codebase"
 
   visibility = "public"
 
-}*/
+}
