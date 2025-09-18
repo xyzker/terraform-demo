@@ -1,6 +1,6 @@
 # Terraform configuration for AWS Lambda to list all IAM roles
 
-resource "aws_iam_role" "lambda_exec" {
+/* resource "aws_iam_role" "lambda_exec" {
   name = "lambda_exec_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -53,3 +53,4 @@ data "archive_file" "lambda_zip" {
   source_file = "${path.module}/lambda/list_iam_roles.py"
   output_path = "${path.module}/lambda/list_iam_roles.zip"
 }
+ */
