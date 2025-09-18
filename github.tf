@@ -5,10 +5,10 @@ variable "github_token" {
 }
 
 # Configure the GitHub Provider
-provider "github" {
+/* provider "github" {
   token = var.github_token  # Changed from literal to variable reference
 }
-
+ */
 /*resource "github_repository" "example" {
   name        = "example"
   description = "My awesome codebase"

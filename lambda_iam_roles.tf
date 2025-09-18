@@ -1,9 +1,5 @@
 # Terraform configuration for AWS Lambda to list all IAM roles
 
-provider "aws" {
-  region = var.aws_region
-}
-
 resource "aws_iam_role" "lambda_exec" {
   name = "lambda_exec_role"
   assume_role_policy = jsonencode({
@@ -56,10 +52,4 @@ data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "${path.module}/lambda/list_iam_roles.py"
   output_path = "${path.module}/lambda/list_iam_roles.zip"
-}
-
-variable "aws_region" {
-  description = "AWS region to deploy Lambda"
-  type        = string
-  default     = "us-east-1"
 }
