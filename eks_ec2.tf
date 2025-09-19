@@ -160,8 +160,6 @@ resource "aws_eks_node_group" "minimal_nodes" {
   }
 
   instance_types = ["t2.micro"]
-  ami_type       = "AL2_x86_64"
-  capacity_type  = "ON_DEMAND"
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_worker_policy,
