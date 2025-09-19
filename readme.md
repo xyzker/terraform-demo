@@ -1,6 +1,9 @@
 # After deployment, test S3 access:
 ```
-kubectl exec -it aws-cli-test -- aws s3 ls
+kubectl exec -it aws-cli-test -- sh
+aws s3 ls
+aws sts get-caller-identity
+aws iam get-user
 ```
 
 

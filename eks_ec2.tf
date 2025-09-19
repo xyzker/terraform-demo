@@ -1,4 +1,4 @@
-# Minimal EKS configuration with t2.micro instance
+/*# Minimal EKS configuration with t2.micro instance
 # Uses public subnets to avoid NAT Gateway costs
 
 resource "aws_vpc" "eks_vpc" {
@@ -321,4 +321,4 @@ output "node_group_arn" {
 output "service_account_role_arn" {
   description = "IAM Role ARN for Service Account"
   value       = aws_iam_role.eks_s3_service_account_role.arn
-}
+}*/
