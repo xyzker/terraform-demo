@@ -278,12 +278,12 @@ resource "kubernetes_pod" "aws_cli_test" {
       # Resource limits for t2.micro
       resources {
         limits = {
-          cpu    = "200m"
-          memory = "256Mi"
-        }
-        requests = {
           cpu    = "100m"
           memory = "128Mi"
+        }
+        requests = {
+          cpu    = "50m"    # Reduced from 100m
+          memory = "64Mi"   # Reduced from 128Mi
         }
       }
     }
