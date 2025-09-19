@@ -1,6 +1,6 @@
 # Minimal EKS configuration with t2.micro instance
 # Uses public subnets to avoid NAT Gateway costs
-
+/*
 resource "aws_vpc" "eks_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
@@ -247,7 +247,6 @@ data "aws_eks_cluster_auth" "minimal_eks" {
   name = aws_eks_cluster.minimal_eks.name
 }
 
-/*
 # Kubernetes Service Account
 resource "kubernetes_service_account" "s3_service_account" {
   metadata {
