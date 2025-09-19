@@ -57,3 +57,70 @@ resource "aws_instance" "t2_micro" {
     Name = "t2-micro-instance"
   }
 }
+
+# --- IRSA for EKS: Service Account with S3 List Permission ---
+
+data "aws_eks_cluster" "eks" {
+  name = aws_eks_cluster.eks-demo.name
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = aws_eks_cluster.eks-demo.name
+}
+
+data "tls_certificate" "eks_oidc_thumbprint" {
+  url = data.aws_eks_cluster.eks.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_openid_connect_provider" "eks" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.eks_oidc_thumbprint.certificates[0].sha1_fingerprint]
+  url             = data.aws_eks_cluster.eks.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_policy" "s3_list_policy" {
+  name        = "EKSServiceAccountS3ListPolicy"
+  description = "Allow listing all S3 buckets."
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect   = "Allow",
+      Action   = ["s3:ListBucket"],
+      Resource = "*"
+    }]
+  })
+}
+
+resource "aws_iam_role" "eks_sa_s3_list" {
+  name = "eks-sa-s3-list-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Federated = aws_iam_openid_connect_provider.eks.arn
+      },
+      Action = "sts:AssumeRoleWithWebIdentity",
+      Condition = {
+        StringEquals = {
+          "${replace(data.aws_eks_cluster.eks.identity[0].oidc[0].issuer, "https://", "")}:sub" = "system:serviceaccount:default:s3-list-sa"
+        }
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_sa_s3_list_attach" {
+  role       = aws_iam_role.eks_sa_s3_list.name
+  policy_arn = aws_iam_policy.s3_list_policy.arn
+}
+
+resource "kubernetes_service_account" "s3_list_sa" {
+  metadata {
+    name      = "s3-list-sa"
+    namespace = "default"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.eks_sa_s3_list.arn
+    }
+  }
+}
