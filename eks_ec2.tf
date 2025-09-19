@@ -1,4 +1,4 @@
-resource "aws_vpc" "eks_vpc" {
+/*resource "aws_vpc" "eks_vpc" {
   cidr_block = "10.0.0.0/16"
 }
  
@@ -157,3 +157,19 @@ resource "kubernetes_service_account" "s3_list_sa" {
     }
   }
 }
+
+resource "kubernetes_pod" "aws_cli" {
+  metadata {
+    name = "aws-cli-pod"
+    namespace = "default"
+  }
+  spec {
+    service_account_name = kubernetes_service_account.s3_list_sa.metadata[0].name
+    container {
+      name  = "aws-cli"
+      image = "amazon/aws-cli:2.15.0" # or latest
+      command = ["sleep", "3600"]
+    }
+  }
+}
+*/
