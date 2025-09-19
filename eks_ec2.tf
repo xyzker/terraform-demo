@@ -14,12 +14,6 @@ resource "aws_subnet" "eks_subnet_b" {
   availability_zone       = "us-east-1b"
 }
 
-resource "aws_subnet" "eks_subnet" {
-  vpc_id                  = aws_vpc.eks_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
-}
-
 resource "aws_eks_cluster" "eks-demo" {
   name     = "demo-eks-cluster"
   role_arn = aws_iam_role.eks_cluster_role.arn
