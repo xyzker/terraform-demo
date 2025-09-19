@@ -1,4 +1,4 @@
-/*# Minimal EKS configuration with t2.micro instance
+# Minimal EKS configuration with t2.micro instance
 # Uses public subnets to avoid NAT Gateway costs
 
 resource "aws_vpc" "eks_vpc" {
@@ -247,6 +247,7 @@ data "aws_eks_cluster_auth" "minimal_eks" {
   name = aws_eks_cluster.minimal_eks.name
 }
 
+/*
 # Kubernetes Service Account
 resource "kubernetes_service_account" "s3_service_account" {
   metadata {
@@ -296,29 +297,4 @@ resource "kubernetes_pod" "aws_cli_test" {
     aws_eks_node_group.minimal_nodes
   ]
 }
-
-# Outputs
-output "cluster_name" {
-  description = "EKS Cluster Name"
-  value       = aws_eks_cluster.minimal_eks.name
-}
-
-output "cluster_endpoint" {
-  description = "EKS Cluster Endpoint"
-  value       = aws_eks_cluster.minimal_eks.endpoint
-}
-
-output "cluster_security_group_id" {
-  description = "Security group ID attached to the EKS cluster"
-  value       = aws_eks_cluster.minimal_eks.vpc_config[0].cluster_security_group_id
-}
-
-output "node_group_arn" {
-  description = "EKS Node Group ARN"
-  value       = aws_eks_node_group.minimal_nodes.arn
-}
-
-output "service_account_role_arn" {
-  description = "IAM Role ARN for Service Account"
-  value       = aws_iam_role.eks_s3_service_account_role.arn
-}*/
+ */
