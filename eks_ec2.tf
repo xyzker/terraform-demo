@@ -163,11 +163,6 @@ resource "aws_eks_node_group" "minimal_nodes" {
   ami_type       = "AL2_x86_64"
   capacity_type  = "ON_DEMAND"
 
-  # Ensure single instance deployment
-  remote_access {
-    ec2_ssh_key = "my-ssh-key"  # Replace with your actual key pair name
-  }
-
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_worker_policy,
     aws_iam_role_policy_attachment.eks_node_cni_policy,
