@@ -1,4 +1,4 @@
-resource "aws_vpc" "eks_vpc" {
+/* resource "aws_vpc" "eks_vpc" {
   cidr_block = "10.0.0.0/16"
 }
  
@@ -62,4 +62,4 @@ resource "aws_instance" "t2_micro" {
   tags = {
     Name = "t2-micro-instance"
   }
-}
+} */
