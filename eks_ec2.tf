@@ -48,16 +48,6 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSServicePolicy" {
   role       = aws_iam_role.eks_cluster_role.name
 }
 
-resource "aws_instance" "t2_micro" {
-  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI for us-east-1
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.eks_subnet_a.id
-
-  tags = {
-    Name = "t2-micro-instance"
-  }
-}
-
 # --- EKS Managed Node Group ---
 resource "aws_iam_role" "eks_node_group_role" {
   name = "eksNodeGroupRole"
