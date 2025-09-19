@@ -237,6 +237,16 @@ resource "aws_iam_role_policy_attachment" "eks_s3_policy_attachment" {
   role       = aws_iam_role.eks_s3_service_account_role.name
 }
 
+provider "kubernetes" {
+  host                   = aws_eks_cluster.minimal_eks.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.minimal_eks.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.minimal_eks.token
+}
+
+data "aws_eks_cluster_auth" "minimal_eks" {
+  name = aws_eks_cluster.minimal_eks.name
+}
+
 # Kubernetes Service Account
 resource "kubernetes_service_account" "s3_service_account" {
   metadata {
